@@ -1,6 +1,6 @@
 "use client";
 
-import { ResumeDropzone } from "@/app/components/ResumeDropzone";
+import { ResumeDropzone } from "@/components/ResumeDropzone";
 import { extractResumeFromSections } from "@/lib/parse-resume-from-pdf/extract-resume-from-sections";
 import { groupLinesIntoSections } from "@/lib/parse-resume-from-pdf/group-lines-into-sections";
 import { groupTextItemsIntoLines } from "@/lib/parse-resume-from-pdf/group-text-items-into-lines";
@@ -34,7 +34,6 @@ export default function Page() {
 
   return (
     <div className="container mx-auto">
-      Page
       {/* <input type="file" onChange={onFileChange} name="" id="" /> */}
       <ResumeDropzone onFileUrlChange={setFileUrl} />
     </div>
