@@ -1,6 +1,7 @@
 "use client";
 
 import { ResumeDropzone } from "@/components/ResumeDropzone";
+import ResumeForm from "@/components/ResumeForm";
 import Divider from "@/components/ui/divider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,9 +32,9 @@ export default function Page() {
     test();
   }, [fileUrl]);
 
-  useEffect(() => {
-    console.log(resume);
-  }, [resume]);
+  // useEffect(() => {
+  //   console.log(resume);
+  // }, [resume]);
 
   return (
     <div className="container mx-auto">
@@ -58,10 +59,7 @@ export default function Page() {
         >
           <ResumeDropzone onFileUrlChange={setFileUrl} />
           <Divider text="OR" />
-          <div className="grid w-full items-center gap-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input type="email" id="email" placeholder="Email" />
-          </div>
+          <ResumeForm resume={resume} />
         </div>
       </div>
     </div>
