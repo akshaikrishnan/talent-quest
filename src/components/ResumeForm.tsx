@@ -10,10 +10,13 @@ import {
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import findMatchingSkills from "@/lib/skill-parser";
 import { createCandidate } from "@/app/admin/new-candidate/action";
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { useFormState } from "react-dom";
+import { toast } from "sonner";
 
 interface UserResume {
   name: string;
@@ -33,8 +36,15 @@ interface UserResume {
 export default function ResumeForm({ resume }: any) {
   const [levels, setLevels] = useState<any>([]);
   const [skills, setSkills] = useState<any>([]);
+  const [selectedSkills, setSelectedSkills] = useState<any>([]);
+  const [displaySkills, setDisplaySkills] = useState<any>([]);
 
-  const { register, setValue } = useForm({ defaultValues: resume });
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues: resume });
 
   useEffect(() => {
     const fetchLevels = async () => {
@@ -65,10 +75,23 @@ export default function ResumeForm({ resume }: any) {
       resume?.skills?.featuredSkills,
       skills
     );
-    setValue("skills", matchSkills);
+
+    const filteredSkills = [...new Set(matchSkills)];
+    setValue("skills", filteredSkills);
+    setSelectedSkills(filteredSkills);
   }, [resume]);
+
+  useEffect(() => {
+    const skillSelect = selectedSkills?.map((skill: any) =>
+      skills.find((e: any) => skill === e.id)
+    );
+    setDisplaySkills(skillSelect);
+  }, [selectedSkills]);
+
+  const onSubmit: SubmitHandler<UserResume> = async (data) => {};
+
   return (
-    <form action={createCandidate}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid w-full items-center gap-1.5 mb-5">
         <Label htmlFor="name">Name</Label>
         <Input {...register("name")} type="text" id="name" placeholder="Name" />
@@ -88,7 +111,7 @@ export default function ResumeForm({ resume }: any) {
           <Input {...register("tel")} type="tel" id="tel" placeholder="Phone" />
         </div>
       </div>
-      <div className="grid md:grid-cols-2 gap-5">
+      <div className="grid md:grid-cols-2 gap-5 mb-5">
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="email">Summary</Label>
           <Input
@@ -117,6 +140,13 @@ export default function ResumeForm({ resume }: any) {
             </SelectContent>
           </Select>
         </div>
+      </div>
+      <div className="flex flex-wrap gap-y-2 mb-5">
+        {displaySkills?.map((skill: any) => (
+          <Badge variant={"secondary"} key={skill?.id} className="mr-2">
+            {skill?.skill}
+          </Badge>
+        ))}
       </div>
       <Button type="submit">submit</Button>
     </form>

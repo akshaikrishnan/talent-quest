@@ -3,7 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
-export async function createCandidate(data: FormData) {
+export async function createCandidate(status: any, data: FormData) {
   // we're gonna put a delay in here to simulate some kind of data processing like persisting data
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const email = data.get("email") as string;
