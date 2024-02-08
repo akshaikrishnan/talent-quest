@@ -17,6 +17,21 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { useFormState } from "react-dom";
 import { toast } from "sonner";
+import { createClient } from "@/utils/supabase/client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@radix-ui/react-accordion";
 
 interface UserResume {
   name: string;
@@ -24,8 +39,8 @@ interface UserResume {
   tel: string;
   summary: string;
   professionalLevel: string;
-  experience: string;
-  education: string;
+  experience: any[];
+  education: any[];
   skills: any;
   languages: string;
   certifications: string;
@@ -43,8 +58,9 @@ export default function ResumeForm({ resume }: any) {
     register,
     setValue,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm({ defaultValues: resume });
+  } = useForm<UserResume>({ defaultValues: resume });
 
   useEffect(() => {
     const fetchLevels = async () => {
@@ -69,6 +85,9 @@ export default function ResumeForm({ resume }: any) {
     setValue("email", resume?.profile?.email);
     setValue("tel", resume?.profile?.phone);
     setValue("summary", resume?.profile?.summary);
+    setValue("experience", resume?.workExperiences);
+    setValue("education", resume?.educations);
+    setValue("projects", resume?.projects);
     // setValue("professionalLevel", resume?.professionalLevel);
 
     const matchSkills = findMatchingSkills(
@@ -88,7 +107,18 @@ export default function ResumeForm({ resume }: any) {
     setDisplaySkills(skillSelect);
   }, [selectedSkills]);
 
-  const onSubmit: SubmitHandler<UserResume> = async (data) => {};
+  const onSubmit: SubmitHandler<UserResume> = async (data) => {
+    const supabase = createClient();
+    const { data: user, error } = await supabase
+      .from("candidates")
+      .insert([{ name: data.name, email: data.email, phone: data.tel }])
+      .select();
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success(`Candidate ${data.name} Created`);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -140,6 +170,42 @@ export default function ResumeForm({ resume }: any) {
             </SelectContent>
           </Select>
         </div>
+      </div>
+      {watch("experience")?.length && (
+        <div className="grid w-full items-center gap-1.5">
+          <Label htmlFor="tel">Experience</Label>
+          <Accordion type="single" collapsible className="w-full">
+            {watch("experience")?.map((experience: any, index: number) => (
+              <AccordionItem value="item-1" key={index}>
+                <AccordionTrigger>
+                  {experience?.companyName} - {experience?.jobTitle}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <h6 className="text-xs font-mono">{experience?.date}</h6>
+                  {experience?.descriptions?.map((desc: string) => (
+                    <p className="text-xs" key={desc}>
+                      {desc}
+                    </p>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      )}
+      <div className="grid w-full items-center gap-1.5">
+        <Label htmlFor="tel">Education</Label>
+        <Accordion type="single" collapsible className="w-full">
+          {watch("education")?.map((education: any, index: number) => (
+            <AccordionItem value="item-1" key={index}>
+              <AccordionTrigger>{education?.school}</AccordionTrigger>
+              <AccordionContent>
+                <h6>{education?.degree}</h6>
+                <small>{education?.date}</small>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
       <div className="flex flex-wrap gap-y-2 mb-5">
         {displaySkills?.map((skill: any) => (

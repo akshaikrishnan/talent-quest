@@ -28,41 +28,48 @@ export default function layout({ children }: { children: React.ReactNode }) {
               title: "New Interview",
               icon: UserPlus,
               variant: "default",
+              link: "/admin/new-candidate",
             },
             {
               title: "Candidates",
               icon: Users2,
               variant: "ghost",
+              link: "/admin/candidates",
             },
             {
               title: "Skills",
               // label: "9",
               icon: Lightbulb,
               variant: "ghost",
+              link: "/admin/skills",
             },
             {
               title: "Levels",
               label: "",
               icon: BarChart4,
               variant: "ghost",
+              link: "/admin/levels",
             },
             {
               title: "Question Bank",
               label: "23",
               icon: DatabaseZap,
               variant: "ghost",
+              link: "/admin/question-bank",
             },
             {
               title: "Trash",
               label: "",
               icon: Trash2,
               variant: "ghost",
+              link: "/admin/trash",
             },
             {
               title: "Archive",
               label: "",
               icon: Archive,
               variant: "ghost",
+              link: "/admin/archive",
             },
           ]}
         />
@@ -75,6 +82,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
               label: "972",
               icon: Wrench,
               variant: "ghost",
+              link: "/admin/settings",
             },
           ]}
         />
