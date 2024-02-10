@@ -133,7 +133,9 @@ export default function AddQuestion() {
             <Label htmlFor="name">Question</Label>
             <select {...register("level")}>
               {levels.map((level: any) => (
-                <option value={level.title}>{level.title}</option>
+                <option key={level.id} value={level.title}>
+                  {level.title}
+                </option>
               ))}
             </select>
 
