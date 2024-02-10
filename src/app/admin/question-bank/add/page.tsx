@@ -64,7 +64,7 @@ export default function AddQuestion() {
           skill: skills.find((skill: any) => skill.skill === data.skill).id,
           level: data.level
             ? levels.find((level: any) => level.title === data.level).id
-            : 0,
+            : 1,
         },
       ])
       .select();
@@ -83,7 +83,7 @@ export default function AddQuestion() {
       .insert(answerRows)
       .select();
     if (answer) {
-      const prevLevel = data.level || 0;
+      const prevLevel = data.level || 1;
       const prevSkill = data.skill;
       reset();
       setValue("options", [
