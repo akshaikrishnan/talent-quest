@@ -16,7 +16,7 @@ export default function groupByQuestionIdOptimized(data: any): any {
     const optionIndex = options.findIndex((option: any) => option === null); // Find first empty slot
     options[optionIndex] = {
       option: item.option,
-      is_correct: item.is_correct,
+      is_correct: item.is_correct || false,
       id: item.id, // Include id if needed
     };
     groupedMap.set(questionId, group);
