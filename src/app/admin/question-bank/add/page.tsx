@@ -19,7 +19,7 @@ type OptionType = {
 
 interface AddQuestionProps {
   skill: string;
-  level: string;
+  level: string | number;
   question: string;
   options: OptionType[];
 }
@@ -62,7 +62,9 @@ export default function AddQuestion() {
         {
           question: data.question,
           skill: skills.find((skill: any) => skill.skill === data.skill).id,
-          level: levels.find((level: any) => level.title === data.level).id,
+          level: data.level
+            ? levels.find((level: any) => level.title === data.level).id
+            : 0,
         },
       ])
       .select();
@@ -81,7 +83,7 @@ export default function AddQuestion() {
       .insert(answerRows)
       .select();
     if (answer) {
-      const prevLevel = data.level;
+      const prevLevel = data.level || 0;
       const prevSkill = data.skill;
       reset();
       setValue("options", [

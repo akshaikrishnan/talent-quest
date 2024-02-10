@@ -14,6 +14,8 @@ import { Plus } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 async function getData() {
   // Fetch data from your API here.
   const cookieeStore = cookies();
@@ -21,7 +23,8 @@ async function getData() {
 
   const { data: answers = [] } = await supabase
     .from("answers")
-    .select("*, questionbank(question, level(title), skill(skill))");
+    .select("*, questionbank(question, level(title), skill(skill))")
+    .order("id", { ascending: false });
   console.log("skills", groupByQuestionIdOptimized(answers));
   return groupByQuestionIdOptimized(answers);
 }
