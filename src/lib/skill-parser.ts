@@ -11,8 +11,8 @@ interface DbSkill {
 }
 
 export default function findMatchingSkills(
-  skillsData: Skill[],
-  dbSkills: DbSkill[]
+  skillsData: Skill[] | any,
+  dbSkills: DbSkill[] | any
 ): number[] {
   const matchingIds: number[] = [];
 

@@ -12,20 +12,14 @@ import { Label } from "./ui/label";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import findMatchingSkills from "@/lib/skill-parser";
-import { createCandidate } from "@/app/admin/new-candidate/action";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { useFormState } from "react-dom";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+import { z } from "zod";
+
 import {
   Accordion,
   AccordionContent,
@@ -54,13 +48,25 @@ export default function ResumeForm({ resume }: any) {
   const [selectedSkills, setSelectedSkills] = useState<any>([]);
   const [displaySkills, setDisplaySkills] = useState<any>([]);
 
+  const formSchema = z.object({
+    name: z.string().min(2).max(50),
+    email: z.string().email(),
+    tel: z.string().min(10).max(10),
+    skills: z.array(z.string()),
+    summary: z.string().min(10).max(1000),
+    level: z.string(),
+  });
+
   const {
     register,
     setValue,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<UserResume>({ defaultValues: resume });
+  } = useForm<UserResume>({
+    // resolver: zodResolver(formSchema),
+    defaultValues: resume,
+  });
 
   useEffect(() => {
     const fetchLevels = async () => {
@@ -111,7 +117,17 @@ export default function ResumeForm({ resume }: any) {
     const supabase = createClient();
     const { data: user, error } = await supabase
       .from("candidates")
-      .insert([{ name: data.name, email: data.email, phone: data.tel }])
+      .insert({
+        name: data.name,
+        email: data.email,
+        phone: data.tel,
+        summary: data.summary,
+        level: data.professionalLevel,
+        skills: data.skills,
+        experience: data.experience,
+        educations: data.education,
+        active: true,
+      })
       .select();
     if (error) {
       toast.error(error.message);
@@ -122,26 +138,41 @@ export default function ResumeForm({ resume }: any) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="grid w-full items-center gap-1.5 mb-5">
+      <div className="grid w-full items-center gap-1.5 mb-8 relative">
         <Label htmlFor="name">Name</Label>
-        <Input {...register("name")} type="text" id="name" placeholder="Name" />
+        <Input
+          {...register("name", { required: "Name is required!" })}
+          type="text"
+          id="name"
+          placeholder="Name"
+        />
+        {errors.name && (
+          <small className="text-red-500 absolute top-16 ">
+            {errors.name.message}
+          </small>
+        )}
       </div>
-      <div className="grid md:grid-cols-2 gap-5  mb-5">
+      <div className="grid md:grid-cols-2 gap-5  mb-8 relative">
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="email">Email</Label>
           <Input
-            {...register("email")}
+            {...register("email", { required: "Email is required!" })}
             type="email"
             id="email"
             placeholder="Email"
           />
+          {errors.email && (
+            <small className="text-red-500 absolute top-16">
+              {errors.email.message}
+            </small>
+          )}
         </div>
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="tel">Phone</Label>
           <Input {...register("tel")} type="tel" id="tel" placeholder="Phone" />
         </div>
       </div>
-      <div className="grid md:grid-cols-2 gap-5 mb-5">
+      <div className="grid md:grid-cols-2 gap-5 mb-8 relative">
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="email">Summary</Label>
           <Input
@@ -154,7 +185,11 @@ export default function ResumeForm({ resume }: any) {
         <input type="hidden" {...register("skills")} />
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="text">Professional Level</Label>
-          <Select>
+          <Select
+            onValueChange={(e) => {
+              setValue("professionalLevel", e, { shouldValidate: true });
+            }}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select a Level" />
             </SelectTrigger>
@@ -162,13 +197,24 @@ export default function ResumeForm({ resume }: any) {
               <SelectGroup>
                 <SelectLabel>Levels</SelectLabel>
                 {levels?.map((level: any) => (
-                  <SelectItem key={level?.id} value={level?.title}>
+                  <SelectItem key={level?.id} value={level?.id?.toString()}>
                     {level?.title}
                   </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
           </Select>
+          <input
+            type="hidden"
+            {...register("professionalLevel", {
+              required: "Professional level is required!",
+            })}
+          />
+          {errors.professionalLevel && (
+            <small className="text-red-500 absolute top-16">
+              {errors.professionalLevel.message}
+            </small>
+          )}
         </div>
       </div>
       {watch("experience")?.length && (
