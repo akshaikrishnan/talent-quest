@@ -81,6 +81,17 @@ export default function AddQuestion() {
       .insert(answerRows)
       .select();
     if (answer) {
+      const prevLevel = data.level;
+      const prevSkill = data.skill;
+      reset();
+      setValue("options", [
+        { option: "", is_correct: false },
+        { option: "", is_correct: false },
+        { option: "", is_correct: false },
+        { option: "", is_correct: false },
+      ]);
+      setValue("level", prevLevel);
+      setValue("skill", prevSkill);
       toast("Question added successfully!");
     } else toast(ansError?.message);
   };
@@ -188,7 +199,11 @@ export default function AddQuestion() {
             <div className="flex items-center space-x-2">
               <Switch
                 id="airplane-mode"
-                {...register(`options.${index}.is_correct`)}
+                onCheckedChange={(e) => {
+                  console.log(e);
+                  setValue(`options.${index}.is_correct`, e);
+                }}
+                value={`options.${index}.is_correct`}
               />
               <Label htmlFor="airplane-mode">Correct Answer</Label>
             </div>
