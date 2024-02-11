@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
-import Chart from "./Chart";
+
 import {
   Card,
   CardContent,
@@ -17,6 +17,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cx } from "@/lib/cx";
+import Chart from "@/components/Chart";
 
 export default async function ResultDetail({
   params,
