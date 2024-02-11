@@ -19,6 +19,17 @@ import { useFormState } from "react-dom";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
 import { z } from "zod";
+import { Copy } from "lucide-react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import {
   Accordion,
@@ -47,6 +58,8 @@ export default function ResumeForm({ resume }: any) {
   const [skills, setSkills] = useState<any>([]);
   const [selectedSkills, setSelectedSkills] = useState<any>([]);
   const [displaySkills, setDisplaySkills] = useState<any>([]);
+  const [shareModal, setShareModal] = useState(false);
+  const [shareLink, setShareLink] = useState("");
 
   const formSchema = z.object({
     name: z.string().min(2).max(50),
@@ -134,133 +147,189 @@ export default function ResumeForm({ resume }: any) {
       return;
     }
     toast.success(`Candidate ${data.name} Created`);
+    if (typeof window !== "undefined")
+      setShareLink(`${window.location.origin}/interview/${user[0].id}`);
+    setShareModal(true);
+  };
+
+  const copy = () => {
+    if (typeof window !== "undefined") navigator.clipboard.writeText(shareLink);
+    toast.success("Link Copied");
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="grid w-full items-center gap-1.5 mb-8 relative">
-        <Label htmlFor="name">Name</Label>
-        <Input
-          {...register("name", { required: "Name is required!" })}
-          type="text"
-          id="name"
-          placeholder="Name"
-        />
-        {errors.name && (
-          <small className="text-red-500 absolute top-16 ">
-            {errors.name.message}
-          </small>
-        )}
-      </div>
-      <div className="grid md:grid-cols-2 gap-5  mb-8 relative">
-        <div className="grid w-full items-center gap-1.5">
-          <Label htmlFor="email">Email</Label>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid w-full items-center gap-1.5 mb-8 relative">
+          <Label htmlFor="name">Name</Label>
           <Input
-            {...register("email", { required: "Email is required!" })}
-            type="email"
-            id="email"
-            placeholder="Email"
-          />
-          {errors.email && (
-            <small className="text-red-500 absolute top-16">
-              {errors.email.message}
-            </small>
-          )}
-        </div>
-        <div className="grid w-full items-center gap-1.5">
-          <Label htmlFor="tel">Phone</Label>
-          <Input {...register("tel")} type="tel" id="tel" placeholder="Phone" />
-        </div>
-      </div>
-      <div className="grid md:grid-cols-2 gap-5 mb-8 relative">
-        <div className="grid w-full items-center gap-1.5">
-          <Label htmlFor="email">Summary</Label>
-          <Input
+            {...register("name", { required: "Name is required!" })}
             type="text"
-            {...register("summary")}
-            id="text"
-            placeholder="Summary"
+            id="name"
+            placeholder="Name"
           />
-        </div>
-        <input type="hidden" {...register("skills")} />
-        <div className="grid w-full items-center gap-1.5">
-          <Label htmlFor="text">Professional Level</Label>
-          <Select
-            onValueChange={(e) => {
-              setValue("professionalLevel", e, { shouldValidate: true });
-            }}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a Level" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Levels</SelectLabel>
-                {levels?.map((level: any) => (
-                  <SelectItem key={level?.id} value={level?.id?.toString()}>
-                    {level?.title}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <input
-            type="hidden"
-            {...register("professionalLevel", {
-              required: "Professional level is required!",
-            })}
-          />
-          {errors.professionalLevel && (
-            <small className="text-red-500 absolute top-16">
-              {errors.professionalLevel.message}
+          {errors.name && (
+            <small className="text-red-500 absolute top-16 ">
+              {errors.name.message}
             </small>
           )}
         </div>
-      </div>
-      {watch("experience")?.length && (
-        <div className="grid w-full items-center gap-1.5">
-          <Label htmlFor="tel">Experience</Label>
-          <Accordion type="single" collapsible className="w-full">
-            {watch("experience")?.map((experience: any, index: number) => (
-              <AccordionItem value="item-1" key={index}>
-                <AccordionTrigger>
-                  {experience?.companyName} - {experience?.jobTitle}
-                </AccordionTrigger>
-                <AccordionContent>
-                  <h6 className="text-xs font-mono">{experience?.date}</h6>
-                  {experience?.descriptions?.map((desc: string) => (
-                    <p className="text-xs" key={desc}>
-                      {desc}
-                    </p>
+        <div className="grid md:grid-cols-2 gap-5  mb-8 relative">
+          <div className="grid w-full items-center gap-1.5">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              {...register("email", { required: "Email is required!" })}
+              type="email"
+              id="email"
+              placeholder="Email"
+            />
+            {errors.email && (
+              <small className="text-red-500 absolute top-16">
+                {errors.email.message}
+              </small>
+            )}
+          </div>
+          <div className="grid w-full items-center gap-1.5">
+            <Label htmlFor="tel">Phone</Label>
+            <Input
+              {...register("tel")}
+              type="tel"
+              id="tel"
+              placeholder="Phone"
+            />
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 gap-5 mb-8 relative">
+          <div className="grid w-full items-center gap-1.5">
+            <Label htmlFor="email">Summary</Label>
+            <Input
+              type="text"
+              {...register("summary")}
+              id="text"
+              placeholder="Summary"
+            />
+          </div>
+          <input type="hidden" {...register("skills")} />
+          <div className="grid w-full items-center gap-1.5">
+            <Label htmlFor="text">Professional Level</Label>
+            <Select
+              onValueChange={(e) => {
+                setValue("professionalLevel", e, { shouldValidate: true });
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a Level" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Levels</SelectLabel>
+                  {levels?.map((level: any) => (
+                    <SelectItem key={level?.id} value={level?.id?.toString()}>
+                      {level?.title}
+                    </SelectItem>
                   ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <input
+              type="hidden"
+              {...register("professionalLevel", {
+                required: "Professional level is required!",
+              })}
+            />
+            {errors.professionalLevel && (
+              <small className="text-red-500 absolute top-16">
+                {errors.professionalLevel.message}
+              </small>
+            )}
+          </div>
+        </div>
+        {watch("experience")?.length && (
+          <div className="grid w-full items-center gap-1.5">
+            <Label htmlFor="tel">Experience</Label>
+            <Accordion type="single" collapsible className="w-full">
+              {watch("experience")?.map((experience: any, index: number) => (
+                <AccordionItem value="item-1" key={index}>
+                  <AccordionTrigger>
+                    {experience?.companyName} - {experience?.jobTitle}
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <h6 className="text-xs font-mono">{experience?.date}</h6>
+                    {experience?.descriptions?.map((desc: string) => (
+                      <p className="text-xs" key={desc}>
+                        {desc}
+                      </p>
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        )}
+        <div className="grid w-full items-center gap-1.5">
+          <Label htmlFor="tel">Education</Label>
+          <Accordion type="single" collapsible className="w-full">
+            {watch("education")?.map((education: any, index: number) => (
+              <AccordionItem value="item-1" key={index}>
+                <AccordionTrigger>{education?.school}</AccordionTrigger>
+                <AccordionContent>
+                  <h6>{education?.degree}</h6>
+                  <small>{education?.date}</small>
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
-      )}
-      <div className="grid w-full items-center gap-1.5">
-        <Label htmlFor="tel">Education</Label>
-        <Accordion type="single" collapsible className="w-full">
-          {watch("education")?.map((education: any, index: number) => (
-            <AccordionItem value="item-1" key={index}>
-              <AccordionTrigger>{education?.school}</AccordionTrigger>
-              <AccordionContent>
-                <h6>{education?.degree}</h6>
-                <small>{education?.date}</small>
-              </AccordionContent>
-            </AccordionItem>
+        <div className="flex flex-wrap gap-y-2 mb-5">
+          {displaySkills?.map((skill: any) => (
+            <Badge variant={"secondary"} key={skill?.id} className="mr-2">
+              {skill?.skill}
+            </Badge>
           ))}
-        </Accordion>
-      </div>
-      <div className="flex flex-wrap gap-y-2 mb-5">
-        {displaySkills?.map((skill: any) => (
-          <Badge variant={"secondary"} key={skill?.id} className="mr-2">
-            {skill?.skill}
-          </Badge>
-        ))}
-      </div>
-      <Button type="submit">submit</Button>
-    </form>
+        </div>
+        <Button type="submit">submit</Button>
+      </form>
+
+      <Dialog open={shareModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Share interview link</DialogTitle>
+            <DialogDescription>
+              Anyone who has this link will be able to view this.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center space-x-2">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="link" className="sr-only">
+                Link
+              </Label>
+              <Input
+                id="link"
+                value={shareLink}
+                defaultValue={shareLink}
+                readOnly
+              />
+            </div>
+            <Button type="submit" onClick={copy} size="sm" className="px-3">
+              <span className="sr-only">Copy</span>
+              <Copy className="h-4 w-4" />
+            </Button>
+          </div>
+          <DialogFooter className="sm:justify-start">
+            <DialogClose asChild>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => {
+                  setShareModal(false);
+                }}
+              >
+                Close
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
