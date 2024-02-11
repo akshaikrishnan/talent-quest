@@ -46,7 +46,7 @@ export default function Home() {
                 </h1>
                 <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
                   Reduce bias, save time, and find the perfect fit with
-                  TalentQuest's AI interview platform.
+                  TalentQuest&apos;s AI interview platform.
                 </p>
               </div>
               <div className="space-x-4 pt-8">
@@ -127,10 +127,11 @@ export default function Home() {
               </div>
               <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed dark:text-gray-400">
                 At TalentQuest, we understand the importance of accurate and
-                efficient candidate assessment. That's why we've developed a
-                sophisticated resume fetching algorithm that goes beyond simple
-                text extraction. Our AI-powered solution delves deeper,
-                unearthing the valuable skills hidden within each PDF document.
+                efficient candidate assessment. That&apos;s why we&apos;ve
+                developed a sophisticated resume fetching algorithm that goes
+                beyond simple text extraction. Our AI-powered solution delves
+                deeper, unearthing the valuable skills hidden within each PDF
+                document.
               </p>
               <Link
                 className="inline-flex h-9 items-center justify-center rounded-md border  border-gray-200 bg-white px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"

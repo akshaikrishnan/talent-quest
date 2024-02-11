@@ -7,7 +7,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
-export default function page() {
+export default function Page() {
   const supabase = createClient();
   const { user } = useContext(ExamContext);
   const { question } = useParams();
