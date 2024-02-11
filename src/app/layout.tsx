@@ -26,7 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cx("min-h-screen font-sans antialiased", fontSans.variable)}
+        className={cx(
+          "min-h-screen font-sans antialiased scroll-smooth",
+          fontSans.variable
+        )}
       >
         <Providers
           attribute="class"

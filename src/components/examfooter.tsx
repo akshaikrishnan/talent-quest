@@ -18,7 +18,7 @@ export default function ExamFooter({
   const supabase = createClient();
   const router = useRouter();
   const { id } = useParams();
-  const { answers, user } = useContext(ExamContext);
+  const { answers, user, setAnswers } = useContext(ExamContext);
   const navigateQn = (index: number) => {
     console.log(index + currentIndex);
     if (
@@ -57,6 +57,7 @@ export default function ExamFooter({
       .select();
 
     if (all) {
+      setAnswers([]);
       toast("Submitted Successfully");
       router.push(`/interview/success`);
     }
