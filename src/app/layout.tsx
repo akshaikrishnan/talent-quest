@@ -5,6 +5,7 @@ import { cx } from "@/lib/cx";
 import { Providers } from "@/providers/Providers";
 import Header from "@/components/Header";
 import { Toaster } from "@/components/ui/sonner";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,7 +39,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          {children}
+          <Suspense>{children}</Suspense>
           <Toaster />
         </Providers>
       </body>
