@@ -244,7 +244,7 @@ export default function ResumeForm({ resume }: any) {
             )}
           </div>
         </div>
-        {watch("experience")?.length && (
+        {watch("experience")?.length > 0 && (
           <div className="grid w-full items-center gap-1.5">
             <Label htmlFor="tel">Experience</Label>
             <Accordion type="single" collapsible className="w-full">
