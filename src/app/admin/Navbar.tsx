@@ -11,6 +11,7 @@ import {
   Trash2,
   Archive,
   Wrench,
+  FilePieChart,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -57,18 +58,11 @@ export default function Navbar() {
             link: "/admin/question-bank",
           },
           {
-            title: "Trash",
+            title: "Results",
             label: "",
-            icon: Trash2,
-            variant: "ghost",
-            link: "/admin/trash",
-          },
-          {
-            title: "Archive",
-            label: "",
-            icon: Archive,
-            variant: "ghost",
-            link: "/admin/archive",
+            icon: FilePieChart,
+            variant: isActive("/admin/results") ? "default" : "ghost",
+            link: "/admin/results",
           },
         ]}
       />
