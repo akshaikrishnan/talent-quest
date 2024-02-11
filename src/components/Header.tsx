@@ -22,12 +22,12 @@ export default function Header() {
           <ModeToggle />
         </div>
       </header>
-      <ProgressBar
+      {/* <ProgressBar
         height="3px"
         color="#ea580c"
         options={{ showSpinner: false }}
         shallowRouting
-      />
+      /> */}
     </>
   );
 }
