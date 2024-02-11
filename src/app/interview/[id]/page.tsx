@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
@@ -12,6 +13,7 @@ import {
 import { instructions } from "@/lib/instructions";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import React, { use } from "react";
 
 export default async function Exam({ params }: { params: { id: string } }) {
@@ -84,6 +86,12 @@ export default async function Exam({ params }: { params: { id: string } }) {
           ))}
         </div>
       </ScrollArea>
+
+      <div className="p-5 text-center">
+        <Link href={`/interview/${params.id}/1`}>
+          <Button>Start Interview</Button>
+        </Link>
+      </div>
     </div>
   );
 }

@@ -1,15 +1,25 @@
 "use client";
 
+import ExamQuestion from "@/components/ExamQuestion";
 import ExamFooter from "@/components/examfooter";
 import { ExamContext } from "@/providers/ExamProvider";
 import { createClient } from "@/utils/supabase/client";
+import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 export default function page() {
   const supabase = createClient();
   const { user } = useContext(ExamContext);
+  const { question } = useParams();
   console.log(user);
   const [questions, setQuestions] = useState<any>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (questions?.length < question) {
+      setCurrentIndex(Number(question) - 1);
+    }
+  }, [question, questions]);
 
   useEffect(() => {
     if (user?.skills) {
@@ -26,7 +36,16 @@ export default function page() {
   }, [user]);
   return (
     <div>
-      <ExamFooter />
+      <ExamQuestion
+        key={currentIndex}
+        qno={question}
+        question={questions[currentIndex]}
+      />
+      <ExamFooter
+        currentIndex={currentIndex}
+        questionsLength={questions?.length}
+        questions={questions}
+      />
     </div>
   );
 }
