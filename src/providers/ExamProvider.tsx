@@ -13,9 +13,7 @@ export default function ExamProvider({ children }: { children: ReactNode }) {
   const [answers, setAnswers] = useLocalStorage<any>("answers", []);
   const selectAnswer = (answer: any) => {
     console.log(answers);
-    const prevAnswer = answers?.findIndex(
-      (a: any) => a.question === answer.question
-    );
+    const prevAnswer = answers?.findIndex((a: any) => a.question === answer.question);
     if (prevAnswer >= 0) {
       const newAnswers = [...answers];
       newAnswers.splice(prevAnswer, 1);
@@ -41,7 +39,7 @@ export default function ExamProvider({ children }: { children: ReactNode }) {
     getUser();
   }, []);
   return (
-    <ExamContext.Provider value={{ user, selectAnswer, answers }}>
+    <ExamContext.Provider value={{ user, selectAnswer, answers, setAnswers }}>
       {children}
     </ExamContext.Provider>
   );
