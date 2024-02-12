@@ -157,6 +157,75 @@ export default function ResumeForm({ resume }: any) {
     toast.success("Link Copied");
   };
 
+  const mail = async () => {
+    toast.loading("Sending Email", { id: "mail" });
+    const res = await fetch("/api/mail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        recipient: watch("email"),
+        subject: "Talent Quest Interview",
+        // text: `Hi ${watch("name")},
+        //  Here is your interview link: ${shareLink}`,
+        html: `<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Invitation from TalentQuest</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .logo {
+      display: block;
+      margin-bottom: 20px;
+    }
+    .content {
+      line-height: 1.5;
+    }
+    .link {
+      display: inline-block;
+      border: 1px solid #007bff;
+      padding: 8px 16px;
+      color: #007bff;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .link:hover {
+      background-color: #0062cc;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://talent-quest.vercel.app/images/tq-logo.svg" alt="Company Logo" class="logo">
+TalentQuest
+  <div class="content">
+    <p>Hi ${watch("name")},</p>
+    <p>We're excited to invite you to an interview for the ${watch(
+      "summary"
+    )} position at TalentQuest!</p>
+    <p>Please follow this link to join the interview at your scheduled time:</p>
+    <a href="${shareLink}" class="link">Join Interview</a>
+    <p>We look forward to getting to know you better.</p>
+    <p>Best regards,</p>
+    <p>The TalentQuest Team</p>
+    <p>P.S. If you have any questions, please feel free to reply to this email or reach out to us at {contact information}.</p>
+  </div>
+</body>
+</html>`,
+      }),
+    }).then(() => {
+      toast.success("Email Sent", { id: "mail" });
+    });
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -327,6 +396,9 @@ export default function ResumeForm({ resume }: any) {
                 Close
               </Button>
             </DialogClose>
+            <Button onClick={mail} size="sm" className="px-3">
+              Send Mail
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
