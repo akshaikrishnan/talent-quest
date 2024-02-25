@@ -59,7 +59,7 @@ export default function ExamFooter({
     if (all) {
       setAnswers([]);
       toast("Submitted Successfully");
-      router.push(`/interview/success`);
+      router.push(`/interview/chat`);
     }
 
     // console.log(exam)
