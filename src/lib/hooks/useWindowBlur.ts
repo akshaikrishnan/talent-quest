@@ -4,10 +4,12 @@ interface TabFocusState {
   isFocused: boolean;
   onFocus: () => void;
   onBlur: () => void;
+  blurCount: number;
 }
 
 const useTabFocus: () => TabFocusState = () => {
   const [isFocused, setIsFocused] = useState(false);
+  const [blurCount, setBlurCount] = useState(0);
 
   const onFocus = () => {
     setIsFocused(true);
@@ -15,6 +17,7 @@ const useTabFocus: () => TabFocusState = () => {
 
   const onBlur = () => {
     setIsFocused(false);
+    setBlurCount((prevCount) => prevCount + 1);
   };
 
   useEffect(() => {
@@ -44,6 +47,7 @@ const useTabFocus: () => TabFocusState = () => {
     isFocused,
     onFocus,
     onBlur,
+    blurCount,
   };
 };
 

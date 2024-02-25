@@ -9,11 +9,11 @@ import { useLocalStorage } from "usehooks-ts";
 
 export const ExamContext = createContext<any>(null);
 export default function ExamProvider({ children }: { children: ReactNode }) {
-  const { isFocused, onFocus, onBlur } = useTabFocus();
+  const { isFocused, onBlur, blurCount } = useTabFocus();
 
   const supabase = createClient();
   const params = useParams();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<any>(null);
   const [answers, setAnswers] = useLocalStorage<any>("answers", []);
   const selectAnswer = (answer: any) => {
     console.log(answers);
@@ -44,6 +44,17 @@ export default function ExamProvider({ children }: { children: ReactNode }) {
     console.log("hello");
     getUser();
   }, []);
+  useEffect(() => {
+    if (!isFocused && user) {
+      toast.warning("Please don't switch tab during the interview");
+      supabase
+        .from("candidates")
+        .update({ tabSwitches: blurCount })
+        .eq("id", params.id)
+        .select("*")
+        .then((res) => console.log(res));
+    }
+  }, [isFocused, onBlur, user]);
   return (
     <ExamContext.Provider value={{ user, selectAnswer, answers, setAnswers }}>
       {children}

@@ -20,6 +20,8 @@ import { cx } from "@/lib/cx";
 import Chart from "@/components/Chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Chathistory from "@/components/admin/sidebar/Chathistory";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal } from "lucide-react";
 
 export default async function ResultDetail({
   params,
@@ -123,6 +125,26 @@ export default async function ResultDetail({
               />
             </div>
           </div>
+          <Alert variant={user?.tabSwitches > 5 ? "destructive" : "default"}>
+            <Terminal className="h-4 w-4" />
+            <AlertTitle>Cheat Detection</AlertTitle>
+            <AlertDescription>
+              Candidate has switched tab{" "}
+              <strong
+                className={
+                  user?.tabSwitches === 0
+                    ? "text-green-500"
+                    : user?.tabSwitches < 5
+                    ? "text-orange-500"
+                    : "text-red-500"
+                }
+              >
+                {" "}
+                {user?.tabSwitches}
+              </strong>{" "}
+              times during the interview!
+            </AlertDescription>
+          </Alert>
         </CardContent>
       </Card>
       <Tabs defaultValue="qa" className="w-full pt-5">
