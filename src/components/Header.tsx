@@ -15,16 +15,18 @@ export default function Header() {
     <>
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
-          <div className="flex items-center gap-1">
-            <Image
-              src={"/images/tq-logo.svg"}
-              width={50}
-              height={50}
-              className="-rotate-[92deg]"
-              alt="logo"
-            />
-            <h1 className="text-xl font-bold">Talent Quest</h1>
-          </div>
+          <Link href={"/"}>
+            <div className="flex items-center gap-1">
+              <Image
+                src={"/images/tq-logo.svg"}
+                width={50}
+                height={50}
+                className="-rotate-[92deg]"
+                alt="logo"
+              />
+              <h1 className="text-xl font-bold">Talent Quest</h1>
+            </div>
+          </Link>
           <div className="flex items-center gap-3">
             {showFinish && (
               <Link href="/interview/success">

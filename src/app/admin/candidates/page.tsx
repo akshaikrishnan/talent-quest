@@ -29,6 +29,9 @@ export default async function DemoPage() {
 
   return (
     <div className="container mx-auto py-10">
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-8">
+        Candidates
+      </h1>
       <DataTable columns={columns} data={data} />
     </div>
   );

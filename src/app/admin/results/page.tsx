@@ -76,6 +76,9 @@ export default async function page() {
   console.log(formattedResults);
   return (
     <div className="container mx-auto py-10">
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-8">
+        Results
+      </h1>
       <DataTable columns={columns} data={formattedResults} />
     </div>
   );
