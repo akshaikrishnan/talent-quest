@@ -1,7 +1,8 @@
 "use client";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PortfolioParallax } from "@/components/home/PortfolioSection";
-import { products } from "@/lib/data";
+import { AnimatedTooltip } from "@/components/home/TechStack";
+import { products, techStack } from "@/lib/data";
 import Link from "next/link";
 
 export default function Home() {
@@ -113,6 +114,15 @@ export default function Home() {
                 Contact Sales
               </Link>
             </div>
+          </div>
+        </section>
+
+        <section className="pt-10 w-full border-t">
+          <h6 className="text-xl font-bold text-center text-gray-500">
+            Our Tech Stack
+          </h6>
+          <div className="flex  flex-row items-center justify-center mb-10 pt-10 w-full">
+            <AnimatedTooltip items={techStack} />
           </div>
         </section>
       </main>

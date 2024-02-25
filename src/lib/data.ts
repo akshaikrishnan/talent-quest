@@ -78,3 +78,48 @@ export const products = [
     thumbnail: "/images/screens/about.png",
   },
 ];
+
+export const techStack = [
+  {
+    id: 1,
+    name: "Next.Js",
+    designation: "Frontend",
+    image: "/images/stacks/next.jpg",
+  },
+  {
+    id: 2,
+    name: "Supabase",
+    designation: "Backend",
+    image: "/images/stacks/supabase.png",
+  },
+  {
+    id: 3,
+    name: "Vercel",
+    designation: "Deployment",
+    image: "/images/stacks/vercel.png",
+  },
+  {
+    id: 4,
+    name: "Shadcn UI",
+    designation: "UI Library",
+    image: "/images/stacks/shadcn.png",
+  },
+  {
+    id: 5,
+    name: "Aceternity UI",
+    designation: "UI Library",
+    image: "/images/stacks/ace.png",
+  },
+  {
+    id: 6,
+    name: "Gemini",
+    designation: "AI",
+    image: "/images/stacks/gemini.jpg",
+  },
+  {
+    id: 7,
+    name: "Open Resume",
+    designation: "Algorithm",
+    image: "/images/stacks/or.avif",
+  },
+];
