@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/accordion";
 import { cx } from "@/lib/cx";
 import Chart from "@/components/Chart";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Chathistory from "@/components/admin/sidebar/Chathistory";
 
 export default async function ResultDetail({
   params,
@@ -41,12 +43,17 @@ export default async function ResultDetail({
     .select("*, answers(*), questionbank(*,skills(skill),level(title))")
     .eq("candidate_id", params.id);
 
+  const { data: userChat, error: userChatError } = await supabase
+    .from("chat")
+    .select("*")
+    .eq("user", params.id);
+
   console.log(exams?.[0]);
   const correctAnswersCount =
     exams?.filter((item) => item.answers && item.answers.is_correct).length ||
     0;
   const totalQuestionsCount = exams?.length || 0;
-  console.log(correctAnswersCount, totalQuestionsCount);
+  console.log("chat", userChat, userChatError);
 
   return (
     <div className="container mx-auto">
@@ -118,33 +125,43 @@ export default async function ResultDetail({
           </div>
         </CardContent>
       </Card>
-
-      {exams?.map((item: any) => (
-        <Card key={item?.id} className="mb-4">
-          <CardHeader>
-            <CardTitle>{item?.questionbank.question}</CardTitle>
-            <CardDescription>
-              {item?.questionbank?.skills?.skill} -{" "}
-              <em>{item?.questionbank?.level?.title}</em>
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p
-              className={cx(
-                "mb2",
-                item?.answers?.is_correct
-                  ? "text-green-700 font-bold"
-                  : "text-red-500"
-              )}
-            >
-              {item?.answers?.option}
-            </p>
-          </CardContent>
-          {/* <CardFooter>
+      <Tabs defaultValue="qa" className="w-full pt-5">
+        <TabsList>
+          <TabsTrigger value="qa">QA Round</TabsTrigger>
+          {userChat && <TabsTrigger value="chat">Discussion Round</TabsTrigger>}
+        </TabsList>
+        <TabsContent value="qa">
+          {exams?.map((item: any) => (
+            <Card key={item?.id} className="mb-4">
+              <CardHeader>
+                <CardTitle>{item?.questionbank.question}</CardTitle>
+                <CardDescription>
+                  {item?.questionbank?.skills?.skill} -{" "}
+                  <em>{item?.questionbank?.level?.title}</em>
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p
+                  className={cx(
+                    "mb2",
+                    item?.answers?.is_correct
+                      ? "text-green-700 font-bold"
+                      : "text-red-500"
+                  )}
+                >
+                  {item?.answers?.option}
+                </p>
+              </CardContent>
+              {/* <CardFooter>
             <p>Card Footer</p>
           </CardFooter> */}
-        </Card>
-      ))}
+            </Card>
+          ))}
+        </TabsContent>
+        <TabsContent value="chat">
+          {userChat && <Chathistory chat={userChat?.[0]?.message} />}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

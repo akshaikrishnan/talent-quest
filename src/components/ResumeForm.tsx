@@ -37,6 +37,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@radix-ui/react-accordion";
+import ComboBox from "./ui/combobox";
+import { SkillsSelect } from "./SkillsSelect";
 
 interface UserResume {
   name: string;
@@ -119,6 +121,12 @@ export default function ResumeForm({ resume }: any) {
     setSelectedSkills(filteredSkills);
   }, [resume]);
 
+  const handleSkillChange = (skill: any) => {
+    const getSkill = skills.find((e: any) => e.skill.toLowerCase() === skill);
+
+    setSelectedSkills([...selectedSkills, getSkill.id]);
+    setValue("skills", [...selectedSkills, getSkill.id]);
+  };
   useEffect(() => {
     const skillSelect = selectedSkills?.map((skill: any) =>
       skills.find((e: any) => skill === e.id)
@@ -270,13 +278,18 @@ TalentQuest
         </div>
         <div className="grid md:grid-cols-2 gap-5 mb-8 relative">
           <div className="grid w-full items-center gap-1.5">
-            <Label htmlFor="email">Summary</Label>
+            <Label htmlFor="email">Position</Label>
             <Input
               type="text"
-              {...register("summary")}
+              {...register("summary", { required: "Position is Required" })}
               id="text"
-              placeholder="Summary"
+              placeholder="Position for Interviewing"
             />
+            {errors.summary && (
+              <small className="text-red-500 absolute top-16">
+                {errors.summary.message}
+              </small>
+            )}
           </div>
           <input type="hidden" {...register("skills")} />
           <div className="grid w-full items-center gap-1.5">
@@ -336,7 +349,9 @@ TalentQuest
           </div>
         )}
         <div className="grid w-full items-center gap-1.5">
-          <Label htmlFor="tel">Education</Label>
+          {watch("education")?.length > 0 && (
+            <Label htmlFor="tel">Education</Label>
+          )}
           <Accordion type="single" collapsible className="w-full">
             {watch("education")?.map((education: any, index: number) => (
               <AccordionItem value="item-1" key={index}>
@@ -356,10 +371,19 @@ TalentQuest
             </Badge>
           ))}
         </div>
+
+        <div className="flex flex-wrap gap-y-2 mb-5">
+          <SkillsSelect
+            selected={displaySkills}
+            onChange={handleSkillChange}
+            skills={skills}
+          />
+        </div>
+
         <Button type="submit">submit</Button>
       </form>
 
-      <Dialog open={shareModal}>
+      <Dialog open={shareModal} onOpenChange={setShareModal}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Share interview link</DialogTitle>
