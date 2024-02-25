@@ -5,7 +5,7 @@ import ExamFooter from "@/components/examfooter";
 import { ExamContext } from "@/providers/ExamProvider";
 import { createClient } from "@/utils/supabase/client";
 import { useParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 export default function Page() {
   const supabase = createClient();
@@ -21,15 +21,16 @@ export default function Page() {
     }
   }, [question, questions]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (user?.skills) {
       const fetchQuestions = async () => {
-        const { data } = await supabase
-          .from("questionbank")
-          .select("*")
-          .in("skill", user.skills)
-          .eq("level", user.level);
-        setQuestions(data);
+        const data = await fetch(`/api/questions`, {
+          method: "POST",
+          body: JSON.stringify(user),
+        });
+        const { questions } = await data.json();
+        console.log(questions);
+        setQuestions(questions);
       };
       fetchQuestions();
     }
