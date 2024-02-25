@@ -69,3 +69,12 @@
     transform: translateY(0);
   }
 }
+
+/* pre {
+  background-color: #1a1a1a;
+  color: #fff;
+  overflow: auto;
+  font-family: "Monaco", monospace;
+  padding:  1em;
+  border-radius: 12px;
+} */

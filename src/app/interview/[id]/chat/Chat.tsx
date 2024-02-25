@@ -8,6 +8,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { useChat } from "ai/react";
 import { useEffect, useRef } from "react";
+import Markdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export default function Chat({
   skills,
@@ -40,16 +43,16 @@ export default function Chat({
       event.preventDefault();
     }
   };
-  // useEffect(() => {
-  //   append({
-  //     role: "user",
-  //     content: `I want you to act as an interviewer. your name is 'Talent Quest' at company "NaN Tehnologies" and my name is ${
-  //       user?.name
-  //     } I will be the candidate and you will ask me the interview questions for the ${"developer"} position and the skills are ${skills?.join(
-  //       ", "
-  //     )}. I want you to only reply as the interviewer. Do not write all the conservation at once. I want you to only do the interview with me. Ask me the questions and wait for my answers. Do not write explanations. Ask me the questions one by one like an interviewer does and wait for my answers you can ask questions with code snippets. Ask 3 questions only then you can wind up the interview by a thankyou note. You can start by introducing yourself`,
-  //   });
-  // }, []);
+  useEffect(() => {
+    append({
+      role: "user",
+      content: `I want you to act as an interviewer. your name is 'Talent Quest' at company "NaN Tehnologies" and my name is ${
+        user?.name
+      } I will be the candidate and you will ask me the interview questions for the ${"developer"} position and the skills are ${skills?.join(
+        ", "
+      )}. I want you to only reply as the interviewer. Do not write all the conservation at once. I want you to only do the interview with me. Ask me the questions and wait for my answers. Do not write explanations. Ask me the questions one by one like an interviewer does and wait for my answers, you can ask questions with code snippets. Ask 5 to 8 questions only then you can wind up the interview by a thankyou note.  My first sentence is "Hi"`,
+    });
+  }, []);
   return (
     <div>
       <ScrollArea
@@ -96,7 +99,36 @@ export default function Chat({
                           width="40"
                         />
                         <div className="rounded-lg bg-orange-50 border border-orange-200 w-[75%] p-4 text-sm dark:bg-orange-900 dark:border-orange-800 order-2">
-                          {m.content}
+                          <Markdown
+                            children={m.content}
+                            components={{
+                              code(props) {
+                                const { children, className, node, ...rest } =
+                                  props;
+                                const match = /language-(\w+)/.exec(
+                                  className || ""
+                                );
+                                // Filter out the ref from rest if it exists
+                                const { ref, ...filteredRest } = rest;
+                                return match ? (
+                                  <SyntaxHighlighter
+                                    {...filteredRest} // Use filteredRest instead of rest
+                                    PreTag="div"
+                                    children={String(children).replace(
+                                      /\n$/,
+                                      ""
+                                    )}
+                                    language={match[1]}
+                                    style={vscDarkPlus}
+                                  />
+                                ) : (
+                                  <code {...rest} className={className}>
+                                    {children}
+                                  </code>
+                                );
+                              },
+                            }}
+                          />
                         </div>
                       </div>
                     )}
@@ -111,9 +143,14 @@ export default function Chat({
         </Card>
       </ScrollArea>
       <div className="fixed bottom-0 pb-5 w-full mx-auto px-9">
-        <div className="text-sm text-gray-500 dark:text-gray-400">
-          {isLoading ? "Loading..." : ""}
-        </div>
+        {isLoading && (
+          <div className="flex space-x-2 items-center  pb-2">
+            <span className="sr-only">Loading...</span>
+            <div className="h-2 w-2 bg-orange-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+            <div className="h-2 w-2 bg-orange-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+            <div className="h-2 w-2 bg-orange-500 rounded-full animate-bounce"></div>
+          </div>
+        )}
 
         <form
           ref={formRef}

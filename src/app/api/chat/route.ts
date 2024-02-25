@@ -1,7 +1,26 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GoogleGenerativeAIStream, Message, StreamingTextResponse } from "ai";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "");
+
+const updateChat = async (user: string, messages: Message[]) => {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const { data, error } = await supabase
+    .from("chat")
+    .select("*")
+    .eq("user", user);
+  if (data) {
+    await supabase.from("chat").update({ message: messages }).eq("user", user);
+  } else {
+    await supabase.from("chat").insert({
+      user,
+      message: messages,
+    });
+  }
+};
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = "edge";
@@ -31,7 +50,7 @@ export async function POST(req: Request) {
   // Convert the response into a friendly text-stream
   const stream = GoogleGenerativeAIStream(geminiStream, {
     onCompletion: (completion) => {
-      console.log({ ai: completion, user: messages });
+      updateChat(user, messages);
     },
   });
 
