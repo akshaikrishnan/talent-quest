@@ -79,7 +79,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        <section className="w-full py-12 md:py-24 lg:py-32  dark:bg-grid-small-white/[0.2] bg-grid-small-black/[0.2]">
           <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
             <div className="space-y-4">
               <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
@@ -117,7 +117,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="pt-10 w-full border-t">
+        <section className="pt-10 w-full border-t ">
           <h6 className="text-xl font-bold text-center text-gray-500">
             Our Tech Stack
           </h6>

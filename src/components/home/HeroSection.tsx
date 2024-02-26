@@ -18,10 +18,12 @@ export function HeroSection() {
 
   return (
     <div
-      className="h-[400vh]  w-full dark:border dark:border-white/[0.1] rounded-md relative pt-40 overflow-clip"
+      className="h-[400vh]  w-full dark:border dark:border-white/[0.1] rounded-md relative pt-40 overflow-clip  dark:bg-dot-white/[0.2] bg-dot-black/[0.2]"
       ref={ref}
     >
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <GoogleGeminiEffect
+        className=""
         title="Hire Smarter, Not Harder"
         description=" Reduce bias, save time, and find the perfect fit with
                   TalentQuest's AI interview platform."
