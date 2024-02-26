@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 
 export default async function ChatUI({ params }: { params: { id: string } }) {
   const cookieStore = cookies();
-  console.log(params);
   const supabase = createClient(cookieStore);
   const { data: user, error } = await supabase
     .from("candidates")
@@ -21,7 +20,6 @@ export default async function ChatUI({ params }: { params: { id: string } }) {
   const allSkills: string[] = skills?.map((skill: any) => skill.skill) || [
     "IT industry",
   ];
-  console.log(user);
 
   return <Chat user={user} skills={allSkills} />;
 }

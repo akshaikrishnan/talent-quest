@@ -10,11 +10,10 @@ async function getData(): Promise<Candidate[]> {
   const supabase = createClient(cookieeStore);
 
   const { data: skills = [] } = await supabase.from("skills").select("*");
-  console.log("skills", skills);
+
   let { data: candidates = [], error } = await supabase
     .from("candidates")
     .select("*, level(title)");
-  console.log("candidates", candidates);
   const candidatesWithSkills = candidates?.map((candidate) => {
     const matchingSkills = candidate.skills.map((skill: number) =>
       skills?.find((s) => s.id === skill)

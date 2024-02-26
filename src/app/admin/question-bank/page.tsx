@@ -25,7 +25,6 @@ async function getData() {
     .from("answers")
     .select("*, questionbank(question, level(title), skill(skill))")
     .order("id", { ascending: false });
-  console.log("skills", groupByQuestionIdOptimized(answers));
   return groupByQuestionIdOptimized(answers);
 }
 

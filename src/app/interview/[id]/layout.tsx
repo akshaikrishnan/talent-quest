@@ -21,8 +21,6 @@ export default async function ExamLayout({
     .eq("id", params.id)
     .single();
 
-  console.log(user);
-
   return (
     <>
       <ExamProvider>

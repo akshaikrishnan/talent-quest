@@ -10,7 +10,6 @@ export default async function Skills() {
     const supabase = createClient(cookieeStore);
 
     const { data: skills = [] } = await supabase.from("skills").select("*");
-    console.log("skills", skills);
     let { data: skillsData = [], error } = await supabase
       .from("skills")
       .select("*");

@@ -16,7 +16,6 @@ export default function ExamProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<any>(null);
   const [answers, setAnswers] = useLocalStorage<any>("answers", []);
   const selectAnswer = (answer: any) => {
-    console.log(answers);
     const prevAnswer = answers?.findIndex(
       (a: any) => a.question === answer.question
     );
@@ -27,8 +26,6 @@ export default function ExamProvider({ children }: { children: ReactNode }) {
     } else {
       setAnswers([...answers, answer]);
     }
-
-    console.log(answers);
   };
 
   useEffect(() => {
@@ -39,9 +36,7 @@ export default function ExamProvider({ children }: { children: ReactNode }) {
         .eq("id", params.id)
         .single();
       setUser(user);
-      console.log(params.id);
     };
-    console.log("hello");
     getUser();
   }, []);
   useEffect(() => {
@@ -52,7 +47,7 @@ export default function ExamProvider({ children }: { children: ReactNode }) {
         .update({ tabSwitches: blurCount })
         .eq("id", params.id)
         .select("*")
-        .then((res) => console.log(res));
+        .then((res) => {});
     }
   }, [isFocused, onBlur, user]);
   return (

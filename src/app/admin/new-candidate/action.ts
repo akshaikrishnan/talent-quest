@@ -15,7 +15,6 @@ export async function createCandidate(status: any, data: FormData) {
   const summary = data.get("summary") as string;
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  console.log([{ name, email, phone, skill, level, summary }]);
 
   const { data: user, error } = await supabase
     .from("candidates")

@@ -11,7 +11,6 @@ export default function Page() {
   const supabase = createClient();
   const { user } = useContext(ExamContext);
   const { question } = useParams();
-  console.log(user);
   const [questions, setQuestions] = useState<any>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -29,7 +28,7 @@ export default function Page() {
           body: JSON.stringify(user),
         });
         const { questions } = await data.json();
-        console.log(questions);
+
         setQuestions(questions);
       };
       fetchQuestions();

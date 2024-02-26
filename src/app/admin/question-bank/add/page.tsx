@@ -52,10 +52,7 @@ export default function AddQuestion() {
       },
     });
 
-  console.log("errors", errors);
-
   const onSubmit = async (data: AddQuestionProps) => {
-    console.log("data", data);
     const { data: question, error } = await supabase
       .from("questionbank")
       .insert([
@@ -202,7 +199,6 @@ export default function AddQuestion() {
               <Switch
                 id="airplane-mode"
                 onCheckedChange={(e) => {
-                  console.log(e);
                   setValue(`options.${index}.is_correct`, e);
                 }}
                 value={`options.${index}.is_correct`}

@@ -31,7 +31,6 @@ export default async function ResultDetail({
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const { data: skills = [] } = await supabase.from("skills").select("*");
-  console.log("skills", skills);
   const { data: user, error: userError } = await supabase
     .from("candidates")
     .select("*, level(title)")
@@ -50,12 +49,10 @@ export default async function ResultDetail({
     .select("*")
     .eq("user", params.id);
 
-  console.log(exams?.[0]);
   const correctAnswersCount =
     exams?.filter((item) => item.answers && item.answers.is_correct).length ||
     0;
   const totalQuestionsCount = exams?.length || 0;
-  console.log("chat", userChat, userChatError);
 
   return (
     <div className="container mx-auto">

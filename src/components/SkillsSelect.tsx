@@ -67,7 +67,6 @@ export function SkillsSelect({ skills, onChange, selected }: any) {
               <CommandItem
                 key={index}
                 value={framework.skill}
-                onChange={(e) => console.log(e)}
                 onSelect={(currentValue) => {
                   if (
                     selected?.find(
@@ -75,7 +74,6 @@ export function SkillsSelect({ skills, onChange, selected }: any) {
                     )
                   )
                     return;
-                  console.log(currentValue);
                   onChange(currentValue);
                   setValue(currentValue === value ? "" : currentValue);
                   setOpen(false);

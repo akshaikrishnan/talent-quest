@@ -10,7 +10,6 @@ export default async function Skills() {
     const supabase = createClient(cookieeStore);
 
     const { data: level = [] } = await supabase.from("level").select("*");
-    console.log("skills", level);
     if (Array.isArray(level)) return level;
     return [];
   }

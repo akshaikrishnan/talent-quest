@@ -101,7 +101,6 @@ export default function ResumeForm({ resume }: any) {
   }, []);
 
   useEffect(() => {
-    console.log(resume);
     setValue("name", resume?.profile?.name);
     setValue("email", resume?.profile?.email);
     setValue("tel", resume?.profile?.phone);

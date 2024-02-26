@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   const user = await request.json();
-  console.log(user);
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const { data: questions, error } = await supabase
@@ -21,6 +20,5 @@ export async function GET(request: Request) {
     ?.split(",")
     .map((skill) => skill.toLowerCase());
 
-  console.log(skills);
   return Response.json({ hi: "hello" });
 }
