@@ -2,6 +2,8 @@ import Link from "next/link";
 import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { LockClosedIcon } from "@heroicons/react/24/outline";
 
 export default function Login({
   searchParams,
@@ -57,7 +59,7 @@ export default function Login({
       <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
         <Link
           href="/"
-          className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
+          className="absolute left-8 top-16 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -80,6 +82,13 @@ export default function Login({
           className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
           action={signIn}
         >
+          <Alert className="mb-6">
+            <LockClosedIcon className="h-4 w-4" />
+            <AlertTitle>Authentication Required</AlertTitle>
+            <AlertDescription>
+              Please SignIn/ Signup to continue.
+            </AlertDescription>
+          </Alert>
           <label className="text-md" htmlFor="email">
             Email
           </label>
@@ -99,7 +108,7 @@ export default function Login({
             placeholder="••••••••"
             required
           />
-          <button className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2">
+          <button className="bg-orange-500 rounded-md px-4 py-2 text-foreground mb-2">
             Sign In
           </button>
           <button
