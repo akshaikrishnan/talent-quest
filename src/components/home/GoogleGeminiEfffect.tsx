@@ -37,7 +37,7 @@ export const GoogleGeminiEffect = ({
       </p>
       <Link href="/admin/new-candidate">
         <div className="w-full h-[890px] -top-60 md:-top-36  flex items-center justify-center bg-red-transparent absolute ">
-          <button className="font-bold bg-orange-600 rounded-full md:px-4 md:py-2 px-2 py-1 md:mt-24 mt-8 z-30 md:text-base text-white text-xs  w-fit mx-auto ">
+          <button className="font-bold bg-orange-600 rounded-full md:px-6 md:py-4 px-2 py-1 md:mt-24 mt-8 z-30 md:text-xl text-white text-sm  w-fit mx-auto ">
             Get Started
           </button>
         </div>
