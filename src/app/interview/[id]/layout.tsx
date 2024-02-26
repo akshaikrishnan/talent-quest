@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import ExamProvider from "@/providers/ExamProvider";
+import Webcam from "@/components/webcam";
 
 export default async function ExamLayout({
   children,
@@ -25,6 +26,7 @@ export default async function ExamLayout({
   return (
     <>
       <ExamProvider>
+        <Webcam />
         <main>{children}</main>
       </ExamProvider>
     </>
