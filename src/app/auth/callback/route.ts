@@ -15,6 +15,10 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
+  const redirectUrl = new URL("/admin/new-candidate", requestUrl.origin);
+
+  console.log("redirectUrl", redirectUrl);
+
   // URL to redirect to after sign in process completes
-  return NextResponse.redirect(requestUrl.origin);
+  return NextResponse.redirect(redirectUrl);
 }

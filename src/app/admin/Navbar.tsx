@@ -12,6 +12,7 @@ import {
   Archive,
   Wrench,
   FilePieChart,
+  LogOut,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -76,6 +77,12 @@ export default function Navbar() {
             icon: Wrench,
             variant: "ghost",
             link: "/admin/settings",
+          },
+          {
+            title: "Logout",
+            icon: LogOut,
+            variant: "ghost",
+            link: "/auth/logout",
           },
         ]}
       />

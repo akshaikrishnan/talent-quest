@@ -11,7 +11,7 @@ export default function WebcamComponent() {
     // if (video) video.srcObject = stream;
   };
   return (
-    <div className="fixed w-28 aspect-video top-14 right-8">
+    <div className="fixed w-28 aspect-video top-14 right-8 z-50">
       {/* {userMedia && (
         <video
           id="webcam"

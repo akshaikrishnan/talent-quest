@@ -48,7 +48,9 @@ export default function Chat({
       role: "user",
       content: `I want you to act as an interviewer. your name is 'Talent Quest' at company "NaN Tehnologies" and my name is ${
         user?.name
-      } I will be the candidate and you will ask me the interview questions for the ${"developer"} position and the skills are ${skills?.join(
+      } I will be the candidate and you will ask me the interview questions for the ${
+        user?.summary || "developer"
+      } position and the skills are ${skills?.join(
         ", "
       )}. I want you to only reply as the interviewer. Do not write all the conservation at once. I want you to only do the interview with me. Ask me the questions and wait for my answers. Do not write explanations. Ask me the questions one by one like an interviewer does and wait for my answers, you can ask questions with code snippets. Ask 5 to 8 questions only then you can wind up the interview by a thankyou note.  My first sentence is "Hi"`,
     });
