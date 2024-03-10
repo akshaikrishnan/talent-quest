@@ -136,7 +136,7 @@ export default function InputForm({
                     </FormControl>
                     <SelectContent>
                       {levels?.map((level) => (
-                        <SelectItem value={level.title}>
+                        <SelectItem key={level.title} value={level.title}>
                           {level.title}
                         </SelectItem>
                       ))}
@@ -145,7 +145,7 @@ export default function InputForm({
                   <FormDescription>
                     <ul>
                       {levelDetail?.map((detail: string) => (
-                        <li>{detail}</li>
+                        <li key={detail}>{detail}</li>
                       ))}
                     </ul>
                   </FormDescription>
