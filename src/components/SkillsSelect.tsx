@@ -52,13 +52,13 @@ export function SkillsSelect({ skills, onChange, selected }: any) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[250px] justify-between"
         >
           Select Skills
           <ChevronDownCircle className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] h-60 p-0 overflow-auto">
+      <PopoverContent className="w-[250px] h-60 p-0 overflow-auto">
         <Command>
           <CommandInput placeholder="Search framework..." className="h-9" />
           <CommandEmpty>No framework found.</CommandEmpty>

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.17.1",
     "@google/generative-ai": "^0.2.1",
     "@heroicons/react": "^2.1.1",
     "@hookform/resolvers": "^3.3.4",
