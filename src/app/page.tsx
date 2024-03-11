@@ -70,9 +70,9 @@ export default function Home() {
                   </Link>
                   <Link
                     className="inline-flex h-10 items-center justify-center rounded-md border  border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 dark:text-black focus-visible:ring-gray-300"
-                    href="/admin/new-candidate"
+                    href="/practice"
                   >
-                    Tour the Platform
+                    Practice with AI
                   </Link>
                 </div>
               </div>
