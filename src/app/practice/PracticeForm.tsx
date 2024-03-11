@@ -124,14 +124,14 @@ export default function InputForm({
               name="level"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Experience Level</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a verified email to display" />
+                        <SelectValue placeholder="Select an experience level" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
