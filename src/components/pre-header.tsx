@@ -17,10 +17,10 @@ export default function Announcement() {
     <div className="bg-orange-500 flex items-center justify-center">
       <div className="px-2 py-1 md:py-2 md:px-4">
         <div className="container mx-auto">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-4  text-xs md:text-sm">
             <div className="flex items-center gap-2">
               <PartyPopper className="w-3 h-3 text-gray-100" />
-              <div className="font-semibold text-gray-100">
+              <div className="font-semibold text-gray-100 ">
                 AI Interview Prep: Now Available!
               </div>
             </div>

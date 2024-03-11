@@ -23,14 +23,14 @@ export const GoogleGeminiEffect = ({
 }) => {
   return (
     <div className={cn("sticky top-52", className)}>
-      <p className="text-lg md:text-7xl font-bold pb-4 text-center bg-clip-text text-transparent bg-gradient-to-b  from-gray-500 to-gray-800 dark:from-neutral-100 dark:to-neutral-300">
+      <p className="text-2xl md:text-7xl font-bold pb-4 text-center bg-clip-text text-transparent bg-gradient-to-b  from-gray-500 to-gray-800 dark:from-neutral-100 dark:to-neutral-300">
         Hire{" "}
         <span className="bg-clip-text text-transparent bg-gradient-to-r bg-cover from-red-400 via-orange-600 to-indigo-700">
           Smarter,{" "}
         </span>
         Not Harder
       </p>
-      <p className="text-xs md:text-xl font-normal text-center text-neutral-400 mt-4 max-w-lg mx-auto">
+      <p className="text-sm md:text-xl container mx-auto font-normal text-center text-neutral-400 mt-4 max-w-lg mx-auto">
         {description ||
           `Scroll this component and see the bottom SVG come to life wow this
         works!`}
